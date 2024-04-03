@@ -1,0 +1,44 @@
+import java.util.*;
+
+public class DFSExample {
+    public static void dfs(int current, Map<Integer, List<Integer>> graph, Set<Integer> visited) {
+        visited.add(current);
+        System.out.print(current + " ");
+        List<Integer> neighbors = graph.getOrDefault(current, Collections.emptyList());
+        for (int neighbor : neighbors) {
+            if (!visited.contains(neighbor)) {
+                dfs(neighbor, graph, visited);
+            }
+        }
+    }
+
+    public static void performDFS(Map<Integer, List<Integer>> graph) {
+        Set<Integer> visited = new HashSet<>();
+        for (int node : graph.keySet()) {
+            if (!visited.contains(node)) {
+                dfs(node, graph, visited);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of nodes in the undirected graph: ");
+        int numNodes = scanner.nextInt();
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        System.out.println("Enter the edges (node1 - node2): ");
+        for (int i = 0; i < numNodes; i++) {
+            System.out.print("Enter the number of neighbors for node " + i + ": ");
+            int numNeighbors = scanner.nextInt();
+            List<Integer> neighbors = new ArrayList<>();
+            for (int j = 0; j < numNeighbors; j++) {
+                System.out.print("Enter neighbor for node " + i + ": ");
+                int neighbor = scanner.nextInt();
+                neighbors.add(neighbor);
+            }
+            graph.put(i, neighbors);
+        }
+        System.out.println("DFS traversal starting from each node:");
+        performDFS(graph);
+    }
+}
