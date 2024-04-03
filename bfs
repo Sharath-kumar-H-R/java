@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class BFSExample {
+    public static void bfs(int startNode, Map<Integer, List<Integer>> graph) {
+        Set<Integer> visited = new HashSet<>();
+        Queue<Integer> queue = new LinkedList<>();
+        visited.add(startNode);
+        queue.add(startNode);
+        System.out.println("Nodes reachable from node " + startNode + " using BFS:");
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+            System.out.print(current + " ");
+            List<Integer> neighbors = graph.getOrDefault(current, Collections.emptyList());
+            for (int neighbor : neighbors) {
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    queue.add(neighbor);
+                }
+            }
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of nodes in the graph: ");
+        int numNodes = scanner.nextInt();
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        System.out.println("Enter the directed edges (node1 -> node2): ");
+        for (int i = 0; i < numNodes; i++) {
+            System.out.print("Enter the number of edges for node " + i + ": ");
+            int numEdges = scanner.nextInt();
+            List<Integer> neighbors = new ArrayList<>();
+            for (int j = 0; j < numEdges; j++) {
+                System.out.print("Enter neighbor for node " + i + ": ");
+                int neighbor = scanner.nextInt();
+                neighbors.add(neighbor);
+            }
+            graph.put(i, neighbors);
+        }
+        System.out.print("Enter the starting node for BFS: ");
+        int startNode = scanner.nextInt();
+        bfs(startNode, graph);
+    }
+}
